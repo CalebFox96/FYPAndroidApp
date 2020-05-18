@@ -31,10 +31,10 @@ public class MainActivity extends AppCompatActivity implements MqttCallback {
                         clientId);
         //setting up mqttclient object, we need to give mqtt broker ip which is 192.168.0.59 (raspberry pi ip)
         //you can check ip on pi using ifconfig command and 1883 is port
+
         MqttConnectOptions options = new MqttConnectOptions(); //Holds the set of options that control how the client connects to a server.
         options.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1);
-
-
+        
         try {
             IMqttToken token = client.connect(options);
 
