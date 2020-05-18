@@ -49,8 +49,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallback {
                     try {
                         IMqttToken subToken = client.subscribe(topic, qos); //subscribing hum for humidity
                         client.subscribe("test",1);//subscribing temp for temp
-                        client.subscribe("bpm",1);//subscribing bpm for bpm
-                        client.subscribe("bp",1);//subscribing bp for bp
+
                         subToken.setActionCallback(new IMqttActionListener() {
                             @Override
                             public void onSuccess(IMqttToken asyncActionToken) {

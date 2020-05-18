@@ -59,33 +59,21 @@ public class DBHelper extends SQLiteOpenHelper {
         //2nd argument is String containing nullColumnHack
         db.close(); // Closing database connection
     }
-
-    // code to get the single contact
-    Temp getContact(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query(TABLE_CONTACTS, new String[] { KEY_ID,
-                        KEY_TEMP,KEY_HUM,KEY_BPS,KEY_BP, KEY_TIME }, KEY_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
-
-        Temp contact = new Temp(Integer.parseInt(cursor.getString(0)),cursor.getString(1),cursor.getString(2), cursor.getString(3),cursor.getString(4), cursor.getString(5));
-        /* return contact */
-        return contact;
-    }
-
+//Fetches all the rows in a list
     public List<Temp> getAllContacts() {
+        //create empty list
         List<Temp> contactList = new ArrayList<Temp>();
-        // Select All Query
+        // Select All data
         String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
 
         SQLiteDatabase db = this.getWritableDatabase();
+       // cursor used when we have to run query
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
+                //making object of temp class so we can use the temp functions
                 Temp contact = new Temp();
                 contact.setID(Integer.parseInt(cursor.getString(0)));
                 contact.settemp(cursor.getString(1));
@@ -102,7 +90,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // return contact list
         return contactList;
     }
-
+//Fetch all the rows in a 2D stirng array
     public String[][] getContacts(){
          String[][] DATA_TO_SHOW = new String[getContactsCount()][6] ;
         String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
@@ -113,8 +101,10 @@ public class DBHelper extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-
+                //i is the row and it will keep adding 1 to it
+                //saving id at column 0
                 DATA_TO_SHOW[i][0]=cursor.getString(0);
+                //saving temp at column 1
                 DATA_TO_SHOW[i][1]=cursor.getString(1);
                 DATA_TO_SHOW[i][2]=cursor.getString(2);
                 DATA_TO_SHOW[i][3]=cursor.getString(3);
@@ -129,31 +119,9 @@ public class DBHelper extends SQLiteOpenHelper {
         return DATA_TO_SHOW;
     }
 
-    // code to update the single contact
-    public int updateContact(Temp contact) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(KEY_TEMP, contact.gettemp());
-        values.put(KEY_HUM, contact.gethum());
-        values.put(KEY_HUM, contact.getbps());
-        values.put(KEY_HUM, contact.getbp());
-
-
-        // updating row
-        return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
-                new String[] { String.valueOf(contact.getID()) });
-    }
-
-    // Deleting single contact
-    public void deleteContact(Temp contact) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_CONTACTS, KEY_ID + " = ?",
-                new String[] { String.valueOf(contact.getID()) });
-        db.close();
-    }
 
     // Getting contacts Count
+    // counts number of rows
     public int getContactsCount() {
         String countQuery = "SELECT  * FROM " + TABLE_CONTACTS;
         SQLiteDatabase db = this.getReadableDatabase();

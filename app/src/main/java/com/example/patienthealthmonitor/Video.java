@@ -20,8 +20,9 @@ public class Video extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
-        final WebView myWebView = (WebView) findViewById(R.id.videoView1);
+        final WebView myWebView = (WebView) findViewById(R.id.videoView1);//define webview
         myWebView.loadUrl("http://192.168.0.59:8081");
+        //If url does not load default url is set and returns error
         myWebView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView viewx, String urlx) {
                 viewx.loadUrl(urlx);

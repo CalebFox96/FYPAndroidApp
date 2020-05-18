@@ -25,30 +25,30 @@ public class Graph extends AppCompatActivity {
 
         Log.d("Reading: ", "Reading all contacts..");
         GraphView graph = (GraphView) findViewById(R.id.graph);
+        // Get data in list
         List<Temp> contacts = db.getAllContacts();
+        //
         DataPoint[] dp = new DataPoint[contacts.size()];
         DataPoint[] dp2 =new DataPoint[contacts.size()];
         DataPoint[] dp3 =new DataPoint[contacts.size()];
         DataPoint[] dp4 =new DataPoint[contacts.size()];
         List<DataPoint> dataPoints = new ArrayList<DataPoint>();
         int i=0;
+        // Loop to get all values in datapoints
         for (Temp cn : contacts) {
-            String log = "Id: " + cn.getID() + " ,Temp: " + cn.gettemp() + " ,Hum: " +
-                    cn.gethum() + " ,Time: " + cn.getbps() + " ,Bps: " + cn.getbp() + " ,BP: " +
-                    cn.gettime();
-            dp[i] = new DataPoint(i,Float.parseFloat(cn.gettemp()));
+
+            dp[i] = new DataPoint(i,Float.parseFloat(cn.gettemp())); //(1,29) (2,30)
             dp2[i] = new DataPoint(i,Integer.parseInt(cn.gethum()));
             dp3[i] = new DataPoint(i,Integer.parseInt(cn.getbps()));
             dp4[i] = new DataPoint(i,Integer.parseInt(cn.getbp()));
-
             i=i+1;
-            // Writing Contacts to log
-            Log.d("Name: ", log);
         }
+        // Save data points to series
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dp);
         LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>(dp2);
         LineGraphSeries<DataPoint> series3 = new LineGraphSeries<>(dp3);
         LineGraphSeries<DataPoint> series4 = new LineGraphSeries<>(dp4);
+
         series.setColor(Color.RED);
         series.setTitle("Temp");
         series.setDrawDataPoints(true);
@@ -62,10 +62,12 @@ public class Graph extends AppCompatActivity {
         series4.setColor(Color.BLACK);
         series4.setTitle("BP");
         series4.setDrawDataPoints(true);
-        graph.addSeries(series);
-        graph.getViewport().setScalable(true);
 
+        graph.addSeries(series);
+        //Fit to screen
+        graph.getViewport().setScalable(true);
         graph.getViewport().setScalableY(true);
+
         graph.getViewport().setScrollable(true); // enables horizontal scrolling
         graph.getViewport().setScrollableY(true); // enables vertical scrolling
 
